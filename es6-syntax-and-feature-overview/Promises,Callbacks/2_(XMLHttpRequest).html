@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // An example below using XMLHttpRequest,
+      // for demonstrative purposes only (Fetch API would be the proper modern API to use).
+
+      // ES5 callback
+      function makeRequest(method, url, callback) {
+        var request = new XMLHttpRequest();
+
+        console.log("request: ", request);
+
+        request.open(method, url);
+        request.onload = function () {
+          callback(null, request.response);
+        };
+        request.onerror = function () {
+          callback(request.response);
+        };
+        request.send();
+      }
+
+      makeRequest(
+        "GET",
+        "https://api.ipify.org?format=json",
+        function (err, data) {
+          if (err) {
+            throw new Error(err);
+          } else {
+            console.log("Callback... ", data);
+          }
+        }
+      );
+
+      // ES6 Promise
+      function makeRequest_Promise(method, url) {
+        return new Promise((resolve, reject) => {
+          let request = new XMLHttpRequest();
+
+          request.open(method, url);
+          request.onload = resolve;
+          request.onerror = reject;
+          request.send();
+        });
+      }
+
+      makeRequest_Promise("GET", "https://api.ipify.org?format=json")
+        .then((event) => {
+          console.log("Promise...", event.target.response);
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
+    </script>
+  </body>
+</html>

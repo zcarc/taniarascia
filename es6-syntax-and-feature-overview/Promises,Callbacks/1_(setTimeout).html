@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // Promises represent the completion of an asynchronous function.
+      // They can be used as an alternative to chaining functions.
+
+      // ES5 callback
+      function doSecond() {
+        console.log("Do second.");
+      }
+
+      function doFirst(callback) {
+        setTimeout(function () {
+          console.log("Do first.");
+
+          callback();
+        }, 500);
+      }
+
+      doFirst(doSecond);
+
+      // ES6 Promise
+      let deSecondPromise = () => {
+        console.log("Do second promise.");
+      };
+
+      let doFirstPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          console.log("Do first promise.");
+
+          resolve();
+        }, 500);
+      });
+
+      doFirstPromise.then(deSecondPromise);
+    </script>
+  </body>
+</html>
